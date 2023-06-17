@@ -1,1 +1,1 @@
-Hatalar Düzelilmiştir 🎉
+Hatalar Düzeltilmiştir 🎉
