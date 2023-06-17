@@ -1,80 +1,40 @@
-import React, { useState } from 'react';
-import { signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, provider } from '../firebase';
-import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import React, { useState, useCallback } from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
-const Signin = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const SignIn = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
+        if (!email || !password) {
+            return;
+        }
         signInWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                alert('🆗');
+            .then((userCredential) => {
+                alert("Giriş Başarılı 👍")
+                window.location.href = "/";
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode + ' ' + errorMessage);
+                alert("Giriş Yapılamadı : " + error.message);
             });
-    };
-
-    const googleSignIn = () => {
-        signInWithPopup(auth, provider)
-            .then(() => {
-
-            })
-            .catch((err) => {
-                alert(err);
-            });
-    };
+    }, [email, password]);
 
     return (
-        <Container className="container">
-            <Form onSubmit={handleSubmit}>
-                <h2>Please sign in</h2>
-
-                <FormGroup>
-                    <Label for="email">Email address:</Label>
-                    <Input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </FormGroup>
-                <FormGroup>
-                    <Label for="password">Password:</Label>
-                    <Input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                </FormGroup>
-
-                <div className="links">
-                    <Link to="/signup" className="link">
-                        Create New Account
-                    </Link>
-                    <Link to="/forgotpassword" className="link">
-                        Forgot Password 😥
-                    </Link>
-                </div>
-
-                <Button type="submit" className="signin-button">
-                    Sign in
-                </Button>
-                <Button type="button" className="signin-button" onClick={googleSignIn}>
-                    Sign in With Google
-                </Button>
-            </Form>
-        </Container>
+        <div className="form-container">
+            <form onSubmit={handleSubmit}>
+                <h3>Giriş yap</h3>
+                <label htmlFor="email">E-posta:</label>
+                <input type="email" className="email-input" value={email} onChange={e => setEmail(e.target.value)} />
+                <label htmlFor="password">Şifre:</label>
+                <input type="password" className="password-input" value={password} onChange={e => setPassword(e.target.value)} />
+                <p> <a href="signup">Hesabın yokmu kayıt ol</a> </p>
+                <input type="submit" className="submit-button" value="Giriş" />
+                <p> <a href="ForgotPassword">Şifremi unuttum 😭</a> </p>
+            </form>
+        </div>
     );
 };
 
-export default Signin;
+export default SignIn;

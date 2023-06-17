@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 
-const NoPage = () => {
-    return (
-        <div>NoPage 😭</div>
-    )
+export default class NoPage extends Component {
+    render() {
+        return (
+            <div>NoPage</div>
+        )
+    }
 }
-
-export default NoPage;

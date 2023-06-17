@@ -1,76 +1,39 @@
-import React, { useState } from 'react';
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
-import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
-import { auth, provider } from '../firebase';
+import React, { useState, useCallback } from 'react';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
 
-const Signup = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const SignUp = () => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
+        if (!email || !password) {
+            return;
+        }
         createUserWithEmailAndPassword(auth, email, password)
-            .then(() => {
-                alert('🆗');
+            .then((userCredential) => {
+                alert("kayıt Başarılı 👍")
+                window.location.href = "/signin";
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode + ' ' + errorMessage);
+                alert("kayıt Yapılamadı : " + error.message);
             });
-    };
-
-    const googleSignUp = () => {
-        signInWithPopup(auth, provider)
-            .then(() => {
-
-            })
-            .catch((err) => {
-                alert(err);
-            });
-    };
+    }, [email, password]);
 
     return (
-        <Container className='w-50'>
-            <Form onSubmit={handleSubmit} className="signin-form m-5">
-                <h1 className="h3 mb-3 fw-normal">Please sign up</h1>
-
-                <FormGroup className="form-floating">
-                    <Input
-                        type="email"
-                        className="form-control"
-                        id="floatingInput"
-                        placeholder="name@example.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <Label for="floatingInput">Email address</Label>
-                </FormGroup>
-                <FormGroup className="form-floating">
-                    <Input
-                        type="password"
-                        className="form-control"
-                        id="floatingPassword"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <Label for="floatingPassword">Password</Label>
-                </FormGroup>
-
-                <div className="links d-flex justify-content-between">
-                    <a href="/signin" style={{ textDecoration: 'none' }}>Already Have Account</a>
-                </div>
-
-                <Button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</Button>
-                <Button type="button" className="signin-button" onClick={googleSignUp}>
-                    Sign in With Google
-                </Button>
-            </Form>
-        </Container>
+        <div className="form-container">
+            <form onSubmit={handleSubmit}>
+                <h3>Yeni hesap oluştur</h3>
+                <label htmlFor="email">E-posta:</label>
+                <input type="email" className="email-input" value={email} onChange={e => setEmail(e.target.value)} />
+                <label htmlFor="password">Şifre:</label>
+                <input type="password" className="password-input" value={password} onChange={e => setPassword(e.target.value)} />
+                <p> <a href="signin">Mevcud hesapla giriş yap</a> </p>
+                <input type="submit" className="submit-button" value="Oluştur" />
+            </form>
+        </div>
     );
 };
 
-export default Signup;
+export default SignUp;

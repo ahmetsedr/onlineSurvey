@@ -1,12 +1,13 @@
 import React from 'react';
-import Signout from "../components/Signout";
+import Navbar from '../components/Navbar';
+import VoteSurvey from './VoteSurvey';
 
 const Home = () => {
     return (
         <>
-            <div>Home</div>
-            <Survey />
-            <Signout />
+            <Navbar />
+            <VoteSurvey />
+
         </>
     );
 };

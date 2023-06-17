@@ -1,43 +1,40 @@
-
-import React, { useState } from 'react';
-import { sendPasswordResetEmail } from "firebase/auth";
+import React, { useState, useCallback } from 'react';
+import { sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
-import { Container, Form, FormGroup, Label, Input, Button } from 'reactstrap';
 
 const ForgotPassword = () => {
-    const [email, setEmail] = useState('');
+    const [email, setEmail] = useState("");
 
-    const handleSubmit = (e) => {
+    const handleSubmit = useCallback((e) => {
         e.preventDefault();
+        if (!email) {
+            return;
+        }
         sendPasswordResetEmail(auth, email)
             .then(() => {
-                alert("Password reset email sent!");
+                alert("Şifre sıfırlama bağlantısı gönderildi: " + email);
             })
             .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                alert(errorCode + " " + errorMessage);
+                console.error("Hata:", error);
+                alert("Bir hata oluştu.");
             });
-    };
+    }, [email]);
 
     return (
-        <Container className="container">
-            <h2>Reset Password</h2>
-            <Form onSubmit={handleSubmit}>
-                <FormGroup>
-                    <Label htmlFor="email">Email:</Label>
-                    <Input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                </FormGroup>
-                <Button type="submit">Reset Password</Button>
-            </Form>
-        </Container>
-    )
-}
+        <div className='form-container'>
+            <form onSubmit={handleSubmit} >
+                <h3>Şifremi Unuttum 😭</h3>
+                <label htmlFor="email">E-posta:</label>
+                <input
+                    type="email"
+                    className="email-input"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+                <input type="submit" className="submit-button" value="Şifreyi Sıfırla" />
+            </form>
+        </div>
+    );
+};
 
 export default ForgotPassword;

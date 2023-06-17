@@ -1,18 +1,19 @@
-import { useAuthState } from "react-firebase-hooks/auth";
-import { Navigate, Outlet } from "react-router-dom";
-import { auth } from "../firebase";
+import React from 'react';
+import { Outlet, Navigate } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from '../firebase';
+
 
 const MainLayout = () => {
-    const [user, isLoading] = useAuthState(auth);
 
+    const [user, isLoading] = useAuthState(auth);
     if (isLoading) {
-        return <h1>Loading...</h1>;
+        return <h1>Loading...</h1>
     }
 
     if (!user) {
-        return <Navigate to="/signin" replace />;
+        return <Navigate to="/SignIn" replace />;
     }
-
     return <Outlet />;
 };
 

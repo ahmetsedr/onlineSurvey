@@ -1,0 +1,244 @@
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+form {
+    width: 18rem;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+textarea {
+    height: 6rem;
+}
+
+.choice {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.option-input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+}
+
+.remove-option {
+    padding: 0;
+    margin-left: 1rem;
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #f44336;
+}
+
+.add-option {
+    padding: 0.5rem 1rem;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.submit-button {
+    padding: 1rem 2rem;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+/* Global CSS */
+
+body {
+    font-family: 'Lato', sans-serif;
+    background-color: #f8f8f8;
+}
+
+.container {
+    display: block;
+    position: relative;
+    margin: 40px auto;
+    width: 500px;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+h2 {
+    color: #555555;
+    font-size: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #dddddd;
+}
+
+input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+label {
+    flex: 1;
+    font-weight: 400;
+    font-size: 1.2rem;
+    color: #555555;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+}
+
+li:hover label {
+    color: #000000;
+}
+
+.check {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #dddddd;
+    border-radius: 50%;
+    margin-right: 10px;
+    transition: border-color 0.3s ease-in-out;
+}
+
+input[type="radio"]:checked+label .check {
+    border-color: #2196f3;
+}
+
+.check::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background-color: #2196f3;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+input[type="radio"]:checked+label .check::before {
+    opacity: 1;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    background-color: #2196f3;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 20px;
+}
+
+.submit-button:hover {
+    background-color: #0d8ae8;
+}
+
+button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    background-color: #4caf50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f8f8f8;
+    padding: 1rem;
+}
+
+.title {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.navbar-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.logout-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+    background-color: #45a049;
+}
