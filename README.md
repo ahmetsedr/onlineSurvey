@@ -1,1 +1,1 @@
-VoteSurvey'de bilinmeyen bir hatam var kafam çok karışık ?
+Hatalar Düzelilmiştir 🎉
