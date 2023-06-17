@@ -1,35 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { collection, doc, updateDoc, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
-import { Container, Form, Button } from "reactstrap";
+import React, { useState } from 'react';
 
 const Survey = () => {
-    const [surveyData, setSurveyData] = useState(null);
-    const [votes, setVotes] = useState([]);
+    const question = "Sorumuzun başlığı";
+    const description = "Soru Açıklaması";
+    const options = ["Seçenek 1", "Seçenek 2", "Seçenek 3"];
+    const [votes, setVotes] = useState([0, 0, 0]);
 
-    useEffect(() => {
-        const fetchSurveyData = async () => {
-            const surveyRef = collection(db, "surveys");
-            const snapshot = await getDocs(surveyRef);
-            const surveyData = snapshot.docs.map(doc => doc.data());
-            setSurveyData(surveyData);
-            setVotes(surveyData.map(data => data.votes));
-        };
-
-        fetchSurveyData();
-    }, []);
-
-    const submitVote = async (voteValue) => {
+    const submitVote = (voteValue) => {
         const updatedVotes = [...votes];
         updatedVotes[voteValue]++;
         setVotes(updatedVotes);
-
-        const surveyIndex = voteValue; // Vote option index corresponds to the survey index
-        const surveyRef = doc(db, "surveys", surveyData[surveyIndex].id);
-
-        await updateDoc(surveyRef, {
-            votes: updatedVotes
-        });
     };
 
     const handleVoteSubmit = (event) => {
@@ -43,40 +23,32 @@ const Survey = () => {
         }
     };
 
-    if (!surveyData) {
-        return <div>Loading...</div>;
-    }
-
     return (
-        <Container className="container">
-            {surveyData.map((data, index) => (
-                <div key={index}>
-                    <h1>{data.question}</h1>
-                    <p>{data.description}</p>
-                    <Form id="voteForm" onSubmit={handleVoteSubmit}>
-                        <fieldset>
-                            <legend>Seçenekler</legend>
-                            <div id="optionsContainer">
-                                {data.options.map((option, optionIndex) => (
-                                    <div key={optionIndex} className="choice">
-                                        <input
-                                            type="radio"
-                                            name="voteOption"
-                                            value={optionIndex}
-                                            data-index={optionIndex}
-                                        />
-                                        <label>{option}</label>
-                                        <span>({votes[index][optionIndex]})</span>
-                                    </div>
-                                ))}
+        <div>
+            <h1 id="questionTitle">{question}</h1>
+            <p id="questionDescription">{description}</p>
+            <form id="voteForm" onSubmit={handleVoteSubmit}>
+                <fieldset>
+                    <legend>Seçenekler</legend>
+                    <div id="optionsContainer">
+                        {options.map((option, index) => (
+                            <div key={index}>
+                                <input
+                                    type="radio"
+                                    name="voteOption"
+                                    value={index}
+                                    data-index={index}
+                                />
+                                <label>{option}</label>
+                                <span>({votes[index]})</span>
                             </div>
-                        </fieldset>
-                        <Button type="submit">Oy Ver</Button>
-                    </Form>
-                    <div id="result"></div>
-                </div>
-            ))}
-        </Container>
+                        ))}
+                    </div>
+                </fieldset>
+                <button type="submit">Oy Ver</button>
+            </form>
+            <div id="result"></div>
+        </div>
     );
 };
 
